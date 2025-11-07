@@ -1,0 +1,7 @@
+Title: Bayesian model to infer private equity returns from capital in and outflows
+URL: https://www.pymc-labs.com/blog-posts/everysk
+Description: Learn how PyMC Labs and Everysk collaborated to develop a Bayesian model that provides insights into private equity returns from capital in and outflows, and how this model differs from standard machine learning analyses.
+Word Count: 0
+
+================================================================================
+

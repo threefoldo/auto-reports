@@ -1,0 +1,224 @@
+Title: How to use JAX ODEs and Neural Networks in PyMC
+URL: https://www.pymc-labs.com/blog-posts/jax-functions-in-pymc-3-quick-examples
+Description: Learn how to seamlessly integrate JAX-based ODE solvers and neural networks with PyMC for Bayesian modeling.
+Word Count: 1410
+
+================================================================================
+
+How to use JAX ODEs and Neural Networks in PyMC
+
+September 23, 2025
+
+ByRicardo Vieira and Adrian Seyboldt
+
+PyMC strength comes from its expressiveness.
+If you have a data-generating process and want to infer parameters of interest,
+all you need to do is write it down, choose some priors and let it sample.
+
+Sometimes this is easier said than done, especially the "write it down" part.
+With Python's rich ecosystem,
+it's often the case that you already have a generative function,
+but it's written in another framework, and you would like to use it in PyMC.
+Thanks to the highly composable nature of the PyMC backend, this is simple.
+Even simpler if that framework can also provide you gradients for free!
+
+In this blog post,
+we show how you can reuse code from another popular auto-diff framework,
+JAX, directly in PyMC.
+
+We will start with a dummy example by simply wrapping
+a pure function that already exists underpymc.math,
+and then show two real examples:
+reusing an ODE Solver from the Diffrax library
+and a CNN from the Flax library.
+
+This blog post won't explain in detail why we do things the way they are shown,
+but will only show you how to do it.
+If you want to have a better understanding, you should check the PyMC exampleHow to wrap a JAX function for use in PyMCand the relevant PyTensordocumentation ofOp.
+
+Without further ado, let's import some stuff.
+
+Wrapping a pure JAX function
+
+In this first example,
+we will wrap thejax.numpy.expfunction so you can use it in PyMC models.
+This is purely demonstrative, as you could usepymc.math.exp.
+
+We first create a function that encapsulates the operation (or series of operations)
+that we care about.
+We also save the jitted function into a variable.
+
+JAX'sjitfunction accepts a function and returns a function,
+meaning that we can call onjitted_custom_op_jax:
+
+We then create the function that computes
+the vector-jacobian product (vjp) needed for PyTensor gradients.
+JAXvjptakes as inputs a computational graph, expressed as a function, and its inputs.
+It returns the evaluated graph, which we don't need,
+and a partial function that computes the vjp,
+given the output gradients,
+which is what we need for PyTensor.
+
+Now for the meaty part!
+We create two PyTensor Ops,
+one for the operation we care about
+and another for the vjp of that operation.
+This is how we can glue external code into PyMC's backend.
+(Note here: It's a bit verbose, but nothing too complicated.)
+
+Here's what's happening below.
+We subclass from theOpclass
+and implement 3 methods:make_node,performandgrad.
+For the vjp we need to implement only the first two.
+
+How do we know that we've implemented theOps correctly?
+To do that, we can use the pytensorverify_gradutility:
+
+It didn't raise anError, so we're clear!
+Now we can use our wrapped Op directly with PyMC models:
+
+PyMC providesmodel_to_graphvizto visualize the model graph:
+
+Part of verifying that theOp's API works with PyMC
+is in evaluating the model'slogpanddlogp.
+First, thelogpfunction:
+
+And now thedlogpfunction:
+
+The numerical values of the evaluatedlogpanddlogpare correct in both cases.
+
+If we want to use PyTensor's JAX backend,
+we have to, somewhat paradoxically, tell PyTensor how to convert our Ops to JAX code.
+PyTensor does not know it was JAX code to begin with!
+Fortunately, this is pretty simple by simply returning the original functions.
+
+Note that we don't return the jitted functions,
+because we want PyTensor to use JAX to jit the whole JAX graph together.
+
+Now we can compile to the JAX backend and get the same results!
+First with thelogp:
+
+And now with thedlogp:
+
+Wrapping a Diffrax ODE Solver
+
+Let's move on to a more complicated situation.
+We will wrap an ODE solver from the Diffrax library in this second example.
+It will be a straightforward example with a single variable parameter:
+The initial pointy0.
+First, we importdiffrax:
+
+Then we set up a simple ODE.
+
+For those who are not familiar with ODEs,
+thevector_fieldis the derivative of the functionywith respect tot,
+and thetermis the ODE itself.
+Thesolveris the method used to solve the ODE;
+thesaveatis the collection of times at which we want to save the solution;
+and thestepsize_controlleris used to control the step size of the solver.
+Finally,solis the solution to the ODE, evaluated at thesaveatpoints.
+
+From this point onward,
+the rest of the code should look very similar to what we did above.
+
+Firstly, we need a JAX function that we will wrap.
+Our function will return the solutions forys, given a starting pointy0.
+The other parameters will be constant for this example,
+but they could also be variables in a more complexOp.
+
+Then, we define the vjp function.
+
+After that, we define theOpandVJPOpclasses for the ODE problem:
+
+And with no errors, we go on to register the JAX-ified versions of theOpandVJPOp:
+
+Finally, we can use theOpin a model,
+this time to infer what the initial value of the ODE was from observed data:
+
+As always, we can inspect the model's structure to make sure it is correct:
+
+And finally, we can verify that the model'slogpanddlogpfunctions execute.
+Firstly, without JAX mode:
+
+And then with JAX mode:
+
+And then thedlogpfunctions in both non-JAX and JAX mode:
+
+Wrapping a Flax neural network
+
+Our final example will be encapsulating a Neural Network
+built with the Flax library.
+In this example, we will skip the gradient implementation.
+As discussed below, you don't need to implement it
+if you defer the gradient transformation to JAX,
+as PyMC does when usingsampling.jax.
+
+In this problem setup, we will be training a CNN
+to predict digit identity in a given MNIST dataset image.
+We will make use oftensorflow_datasetsto get access to the MNIST dataset:
+
+We can inspect the dataset to figure out its dimensions:
+
+Here, we selected 1,000 images, each of which is 28x28 pixels, with 1 channel
+
+Let's see what one of those images looks like:
+
+Now, we will implement a simple Convolution Neural Network (CNN)
+using the very user-friendly Flax library.
+(It has an API that is very, very close in spirit to PyTorch.)
+
+The exact structure of the model is unimportant here;
+whatisimportant, though, is that the model is acallable.
+
+Let's initialize the CNN and iterate over the layers
+to get an idea of the number of parameters
+
+This model has a lot of parameters,
+many more than most of the classical statistical estimation models will have.
+
+We can evaluate the forward pass of the network by callingcnn.apply.This is the function we want to wrap for use in PyMC.
+
+We want to pass the weights of each kernel as vanilla arrays,
+but FLAX requires them to be in a tree structure for evaluation.
+This requires using some utilities, but it's otherwise straightforward.
+Note that this is specific to Flax, of course.
+
+If you are feeling a bit confused
+because of the presence of "unflattened" and "flattened" parameters,
+don't worry: it's just a technicality we need to deal with now.
+What's worth noting here is that the CNN's forward pass
+is wrapped in a JAX function that will be wrapped in a PyTensor Op,just as we had done before.
+
+Now, let's create the CNN Op.
+Note that we don't implement the gradient method!
+
+We can now create a Bayesian Neural Network model,
+giving a Normal prior for all the parameters in the CNN.
+
+As before, we can compute the logp at the models' initial point,
+which lets us figure out whether there are any issues with the model or not.
+
+We can do the same with the JAX backend.
+
+As we mentioned, we don't always need to define the gradient method.
+For instance, when using JAX samplers such assample_numpyro_nuts,
+the gradients will be directly obtained from the jax compiled function.
+
+Let's confirm this is the case,
+by using the PyMC helperget_jaxified_logpthat returns the JAX function that computes the model joint logp,
+and then taking the gradient with respect to the first set of parameters.
+Firstly, we use theget_jaxified_logphelper to get the JAX function
+(and we evaluate it below):
+
+And then, we take the gradient with respect to the first set of parameters
+and evaluate it below as well:
+
+Summary
+
+We hope you found this introduction to using PyMC with JAX helpful.
+JAX is a powerful automatic differentiation library,
+and a growing ecosystem is forming around it.
+PyTensor is a flexible library for the compilation and manipulation of symbolic expressions,
+for which JAX is one supported backend.
+We hope that this introduction will help you to use JAX with PyMC,
+and that you will find it helpful in your work!

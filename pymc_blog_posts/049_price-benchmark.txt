@@ -1,0 +1,7 @@
+Title: LLMs and Price Reasoning: Toward an Industry Benchmark
+URL: https://www.pymc-labs.com/blog-posts/price-benchmark
+Description: Novel LLM benchmark for evaluating the ability to estimate consumer product prices and reason strategically in an analogue of "The Price is Right" showcase game.
+Word Count: 0
+
+================================================================================
+

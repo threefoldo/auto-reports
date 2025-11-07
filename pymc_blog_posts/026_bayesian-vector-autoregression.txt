@@ -1,0 +1,92 @@
+Title: Bayesian Vector Autoregression in PyMC
+URL: https://www.pymc-labs.com/blog-posts/bayesian-vector-autoregression
+Description: It's time to let go of your custom Gibbs sampler
+Word Count: 1082
+
+================================================================================
+
+Bayesian Vector Autoregression in PyMC
+
+September 23, 2025
+
+ByRicardo Vieira
+
+A little bit of history
+
+In the seminal 1993paper"Bayes regression with autoregressive errors: A Gibbs sampling approach", Siddhartha Chib presented to economists the potential of Gibbs sampling in "realistic settings that were previously considered intractable from a Bayesian perspective".
+
+A cursory reading reveals a pattern that is quite characteristic of this early type of work. A time-series statistical model is first described, usually in a handful of equations —1 in this case—, followed by an intricate analysis of how the model joint-probability can be cut into conditionally independent blocks appropriate for Gibbs sampling. In that paper this amounts to no less than 9 equations! If one's model could not be easily cut into sample-able blocks,"auxiliary" variablescould always be added as topping, until such cut was found.
+
+As if this was not hard enough, early pioneers had to write their custom Gibbs sampling algorithms by hand, taking care to accommodate the existing computing limitations. Chib's paper makes mention of a powerful 33MHz machine. This process was somewhat alleviated by increasing compute power and by the advent of general purpose MCMC samplers likeBUGSandJAGS, and later more powerful Hamiltonian Monte Carlo samplers like those found inStanandPyMC.
+
+Surprisingly, many are still relying on custom Gibbs sampler algorithms tothis day. Perhaps begging their joint probabilities to factor nicely or chasing the auxiliary variables needed for their latest model ideas. Needless to say, with PyMC, we won't be doing any of this!
+
+Back to the present
+
+We will implement a Vector Autoregression (VAR) model, a powerful time series tool, to examine and forecast complex dynamic relationships between variables. VAR models are routinely used by most macroeconomic and policy-making institutions, and have been increasingly adopted in other areas. Some interesting applications include:
+
+To understand how VAR works, it helps to first take a brief look at the simpler Autoregression models.
+
+Autoregression models
+
+Autoregression models (AR) try to predict current observations as a linear combination of the past observations.
+
+Assuming that the most recentvalues influence the current observation, the model is described by the following equation:
+
+Simulating data from an AR process is quite simple:
+
+In this first example, new values forat timedepend only on the intercept and the previous value. This would be an autoregression model of first order or AR(1).
+
+In an AR(2), new values are influenced by the two preceding values.
+
+As the order of an AR model increases, so does the range of temporal dependencies and the richness of patterns that can be captured. On the other hand, the effect of each coefficient will be harder to determine, as each one plays a proportionally smaller role in the model outcomes.
+
+Vector Autoregression models
+
+Vector autoregression models (VAR) are the multivariate generalization of AR. In a similar vein, they assume that a set of variables, observed at time, can be well predicted by a linear combination of the previous observations of that same set of variables.
+
+Assuming that only the most recent two values have an effect on the current observations, the VAR(2) model is described by:
+
+This type of model allows for bidirectional effects among variables. The current values ofare not only affected by its past values, but also by the past values of. In addition, the past values ofalso affect the current values of. This type of bidirectional effects make VAR models extremely flexible and powerful.
+
+Let us simulate data from a VAR(2) model:
+
+Unlike the simulations in the previous section, the two time-series ofandare now interdependent. Concretely,depends onanddepends on bothand. If the coefficients for the cross-effects were all set to zero, these effects would vanish and we would be observing two independent AR processes just like before.
+
+Going Bayesian with BVAR
+
+Bayesian Vector Autoregression models (BVAR), are the Bayesian interpretation of vanilla VAR models. Parameter uncertainty is explicitly modeled and updated via the Bayesian rule, conditioned on observed data. Like most Bayesian models, there are no hidden assumptions or special conditions under which a statistical model can or cannot be used. What youseewrite is what you get.
+
+This single letter difference gives a lot of power to BVAR models. Model parameters can be directly constrained by expert information. Relevant information from different datasets can be pooled together via hierarchical modelling. Different assumptions about the extent of lagged effects or noise terms can be easily changed and contrasted. It is also quite simple to extend and combine BVAR with other types of models. As with most Bayesian tools, imagination is the only limitation.
+
+Well, that and compute time...
+
+VAR + PyMC = BVAR
+
+The good news is that if you are using PyMC, your VAR model is necessarily a BVAR model! Let's see how easy it is to do it:
+
+To honor the economic tradition of VARs, we will look at U.S. macroeconomic data for our example, and modelGDP growthandTerm spreadbetween long- and short-term Treasury bonds. If you have no idea what that means... you are probably not an economist. Neither am I, so do not worry!
+
+This analysis is heavily inspired by thischapter of Introduction to Econometrics with R. Another useful reading can be found in the respectivechapter of Forecasting: Principles and Practice.
+
+Per usual, we must start with some scraping and data transformation...
+
+132 rows × 5 columns
+
+Time to model! We will consider a simple BVAR model of second order.
+
+Shall we do some armchair economics?
+
+Sampling seems to have gone well, let's look at the results:
+
+We can see GDP growth is positively correlated with growth in the two preceding quarters,[-1, GDPGrowth, GDPGrowth]and[-2, GDPGrowth, GDPGrowth], as the posteriors of both coefficients are positive and far from zero.
+
+Term spread is strongly correlated with the term spread of the past quarter[-1, Tspread, Tspread]and slightly negatively correlated with that of two quarters past[-2, TSpread, TSpread].
+
+Now for the interesting part of VAR, we want to look at the cross-effects from one variable to the other. The model suggests past Term spreads may be strongly related to  GDP growth, with[-1, GDPGrowth, TSpread],[-2, GDPGrowth, TSpread]having an absolute large mean. However, the uncertainty around these parameters is rather large.
+
+In contrast, there seems to be almost no effect in the other direction, from GDP growth to term spread[-1, TSpread, GDPGrowth],[-2, TSpread, GDPGrowth], with posteriors of the coefficients confidently close to zero.
+
+Easier to forecast
+
+Looking at numbers can only be so useful. What do they imply? Let's build a helper function to forecast future GDP growth and Term spread, according to our freshly inferred posterior parameters.

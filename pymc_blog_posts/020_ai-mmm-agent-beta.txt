@@ -1,0 +1,7 @@
+Title: Introducing the BETA Release of Our MMM Agent - Powered by PyMC-Marketing
+URL: https://www.pymc-labs.com/blog-posts/ai-mmm-agent-beta
+Description: We're thrilled to open up BETA access to the latest version of our Marketing Mix Modeling (MMM) Agent - a fully AI-driven assistant built on top of PyMC-Marketing that turns what used to be a multi-month modeling effort into an interactive, informative, and insightful workflow in hours.
+Word Count: 0
+
+================================================================================
+

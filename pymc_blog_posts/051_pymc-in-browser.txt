@@ -1,0 +1,94 @@
+Title: Running PyMC in the Browser with PyScript
+URL: https://www.pymc-labs.com/blog-posts/pymc-in-browser
+Description: Experience the power of PyMC in your browser with PyScript
+Word Count: 784
+
+================================================================================
+
+Running PyMC in the Browser with PyScript
+
+September 23, 2025
+
+ByThomas Wiecki
+
+How is that possible? PyScript!
+
+PyScriptis a new (as of 2022) tool that allows you to execute Python directly in your browser. Previously, running code client-side was only possible with JavaScript.
+
+What's really exciting is that it's not just a small subset of Python, but everything. You can even import packages likeNumPy,Pandas, andMatplotlib. The way this works is viaPyodide, a port of the CPython runtime implemented in WebAssembly.
+
+If you want to learn more, watchPeter Wang'sPyCon 2022 Keynotewith many demos.
+
+Possible to run PyMC?
+
+Naturally, I was curious if it was possible to run PyMC through PyScript. On first thought this might seem impossible because PyMC compiles the model evaluation code to C or JAX (throughPyTensor). However,PyTensoralso has a Python mode which, while being much slower, is fully functional.
+
+Why?
+
+Before, you could have a PyMC model run on the server and then send the results back to the client (i.e. the browser). However, this has a few short-comings:
+
+It's challenging to set everything up to handle the interplay between client and server correctly, with many different technologies interacting in complex ways
+
+On top of the server<->client interplay, you have to pay special attention to scaling as many users might be running compute-extensive PyMC models in parallel
+
+Users might not be comfortable to send their data to your server
+
+If we can just run PyMC in the browser directly, all these problems go away. There is no interplay between client and server because everything runs on the client. There are no scaling issues because users use their own CPUs to fit their models. And finally, no data ever gets transmitted to the server, so it's completely safe and privacy preserving.
+
+The Process
+
+1. Getting PyMC installed in the browser
+
+InPyScriptit's possible to install any packages that are onPyPIusingmicropip.
+
+This installsbokehandpymcin your browser and we canimport pymc as pm. Easy-peasy.
+
+2. Write model
+
+Next, we can embed our Python code inpy-scripttags:
+
+Note that becausearviz(whatPyMCuses for plotting), has support forbokeh, a Python-to-JS plotting library, we can also get interactive plots.
+
+3. That's it!
+
+There is no 3, you just open the website in your browser, it will install the packages and that's it!
+
+I was surprised by how simple it was to get this going, it took me a couple of hours to put everything together. These are really interesting times we're living in.
+
+Applications
+
+So what could we do with this? Well, the possibilities are endless. The main applications will resolve around two possibilities:
+
+Sampling a PyMC model based on user-data
+
+Having a presampled model that we use to make predictions based on user-data
+
+Some example applications could be:
+
+JupyterLiteis a Jupyter NB that runs completely in the browser. So you can interactively work with PyMC without having to install anything. This would makeour corporate workshopseven simpler. Update:This already works.
+
+One of our clients at PyMC Labs perform adaptive psychometric testing. The most informative questions are chosen using a Bayesian model. Currently, there are two versions of the model, one in PyMC that is fit infrequently on a batch of data and one in JavaScript for running in the browser while the subject is doing the test. In the future, they can just use the same PyMC model and don't have to have two separate versions.
+
+Bambiallows to build generalized linear models with a single line that specifies the model. This could easily be turned into a webapp that allows users to upload their data and fit hierachical linear models to it.
+
+Alex Andorraruns awebsite for electoral forecastingusing PyMC. Seeherefor details on the model. Currently it just displays the latest plots generated on the backend, but with this it would allow for custom, user-defined forecasts.
+
+With HelloFresh we have built astate-of-the-art Bayesian marketing mix model. They currently have to run this in Jupyter NB locally and send the results to stake-holders by email. This would make developing a webapp to interact with the data much simpler.
+
+Summary
+
+This feels like a new dawn. JavaScript is by far the most commonly used programming language on the planet. Not because it's a great language (it's OK) but because you can execute it on everything that can run a browser.
+
+This universality is now coming to Python, giving web programmers access to its rich ecosystem, including the PyData stack. And with this blog post, you can also run complex Bayesian models in PyMC.
+
+I cannot wait to see what amazing things the community will produce around this!
+
+Resources
+
+Code
+
+Peter Wang's PyCon 2022 Keynote
+
+Post by Simon Willison that was instrumental in getting this to work
+
+Ravin Kumar's explorations of PyScript and getting PyMC to run

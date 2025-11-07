@@ -1,0 +1,7 @@
+Title: MCMC for big datasets: faster sampling with JAX and the GPU
+URL: https://www.pymc-labs.com/blog-posts/pymc-stan-benchmark
+Description: Scaling PyMC using JAX to sample on the GPU
+Word Count: 0
+
+================================================================================
+

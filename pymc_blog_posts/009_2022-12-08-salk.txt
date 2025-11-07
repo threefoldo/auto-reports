@@ -1,0 +1,63 @@
+Title: Hierarchical Bayesian Modeling of Survey Data with Post-stratification
+URL: https://www.pymc-labs.com/blog-posts/2022-12-08-Salk
+Description: Dive into the complexities of Hierarchical Bayesian Modeling applied to survey data with post-stratification. Understand the subtleties of multilevel regression and the potential of Gaussian Processes in this comprehensive analysis.
+Word Count: 263
+
+================================================================================
+
+Hierarchical Bayesian Modeling of Survey Data with Post-stratification
+
+September 23, 2025
+
+ByThomas Wiecki
+
+Introduction
+
+In this panel discussion, Tarmo Jüristo tells us how Bayesian modeling can help in environments where data are noisy and uncertainty is high –like public opinion polls. In particular, data can be sparse in some strata of the population, making the model’s job harder, precisely for the demographics you’re the most interested in.
+A special focus is placed on the work PyMC Labs has done with Tarmo, implementing a state-of-the-art hierarchical Bayesian model. Coupled with post-stratification, this method not only makes inference possible – it makes it actionable, even you have only a few data points for some demographics.
+
+Timestamps
+
+00:00Introduction by Thomas
+
+03:45Tarmo introduces himself
+
+05:20Panel discussion starts
+
+06:11Description of Salk
+
+08:13Zooming into the data Salk uses
+
+10:04A look into what Tarmo does
+
+13:58Multilevel regression with post-stratification
+
+16:27Further refinements of the Multilevel regression with post-stratification
+
+19:57Model output
+
+25:50Question: On a multilevel aspect, does this mean you model other clusters/groups within other clusters/groups?
+
+28:43Input to simulation
+
+32:20Final simulation
+
+34:46Alex Andorra introduces himself
+
+36:40Question: How do you choose whether it makes sense to add interactions to a model and do you start with all possible interactions?
+
+38:56Technical difficulties during the project
+
+46:59Demonstration of the dashboard
+
+51:52You can use geospatial covariation to extend the model
+
+53:27Does the forecasting take the difference in policies between parties
+
+54:19Using Gaussian Processes in the model(Advantages and disadvantages)
+
+59:55Question: If you have more time, what would you add to the model
+
+1:02:56Question: How well do you think the model is taking without rare events?
+
+1:06:57Thank you!

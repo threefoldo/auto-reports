@@ -1,0 +1,7 @@
+Title: Marketing Mix Modeling : A Complete guide
+URL: https://www.pymc-labs.com/blog-posts/marketing-mix-modeling-a-complete-guide
+Description: This blog explains how Marketing Mix Modeling separates base and incremental sales, adds lag and saturation effects, and uses Bayesian methods to handle uncertainty. It also shows how these ideas are applied in practice, from early PyMC models at HelloFresh to more recent work with PyMC-Marketing at companies like Bolt.
+Word Count: 0
+
+================================================================================
+

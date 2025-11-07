@@ -1,0 +1,7 @@
+Title: Bayesian Media Mix Models: Modelling changes in marketing effectiveness over time
+URL: https://www.pymc-labs.com/blog-posts/modelling-changes-marketing-effectiveness-over-time
+Description:  we outlined what Bayesian Media Mix Models (MMM's) are, how they worked, and what insights they can provide.
+Word Count: 0
+
+================================================================================
+

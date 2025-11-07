@@ -1,0 +1,67 @@
+Title: Bayesian Modeling in Biotech: Using PyMC to Analyze Agricultural Data
+URL: https://www.pymc-labs.com/blog-posts/2022-08-11-indigo
+Description: Uncover the power of Bayesian modeling in biotechnology. Learn how PyMC is used to analyze complex agricultural data, providing valuable insights for the industry.
+Word Count: 310
+
+================================================================================
+
+Bayesian Modeling in Biotech: Using PyMC to Analyze Agricultural Data
+
+September 23, 2025
+
+ByThomas Wiecki
+
+Introduction
+
+In July 2022, we organized a panel discussion with Manu Martinet ofIndigo Agand Thomas Wiecki and Bill Engels of PyMC Labs to discuss a case-study of measuring effects of crop-types in an agricultural setting.  The goal of the project was to identify the underlying spatial pattern and remove it in order to measure more accurately the treatment effect, which in this case are microbes which contribute to plant yield.
+
+PyMC Labs were consultants on this project which had limited data and which used Bayesian analyses and Gaussian processes to identify the treatment effect.  We demonstrate how Bayesian modeling is a powerful tool for solving problems in biotechnology.
+
+Timestamps
+
+00:00Thomas Wiecki does PyMC introduction
+
+02:49Thomas introduces self
+
+03:33Manu Martinet introduces self
+
+04:25Bill Engels introduces self
+
+05:10Panel discussion begins
+
+06:51Testing crop yields on fields
+
+08:16How do you sell the product to farmers?
+
+10:55Data modeling and challenges
+
+13:04Goal of the project: Estimate the spatial pattern and remove it to get the treatment effect
+
+15:20Gaussian processes and how they are used
+
+18:04Spatial Gaussian Processes
+
+19:09Spatial effects
+
+22:13Examples fields to show the spatial components
+
+24:28Question: How does modeling the spatial component with a Guassian process compare with other simpler methods?
+
+25:47Question: With the Gaussian Process(GP)  can you estimate the spatial scale?
+
+28:06Question: How does the Gaussian Process deal with latent variables?
+
+30:08Advantages of the a Bayesian framework
+
+35:00Collaboration between Indigo and PyMC Labs review
+
+42:43Question: What were the biggest challenges in the study?
+
+45:29Question: Is there any example online for PyMC based Hierarchical Gaussian Processes(GP) regression?
+
+46:37Question: How did the decomposition work out between signal, spatial and noise and how do you balance
+the confidence between what is signal and what is noise?
+
+47:35Question: How to effectively use Bayesian methods to substantiate product claims to regulatory bodies?
+
+48:07Thank you!

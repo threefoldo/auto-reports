@@ -1,0 +1,7 @@
+Title: PyMC-Marketing vs. Meridian: A Quantitative Comparison of Open Source MMM Libraries
+URL: https://www.pymc-labs.com/blog-posts/pymc-marketing-vs-google-meridian
+Description: This benchmark study directly compares PyMC-Marketing and Google’s Meridian on realistic synthetic datasets, from startup-scale to enterprise-level. Using aligned priors and identical configurations, it shows that PyMC-Marketing is consistently faster (2–20x), more accurate (lower error in channel contribution recovery, higher R², lower MAPE), and more scalable, thanks to its flexible sampling backends. Meridian remains leaner in storage size but suffers from slower performance, wider uncertainty, and convergence issues at scale. Overall, PyMC-Marketing emerges as the more robust, production-ready MMM library for data science teams.
+Word Count: 0
+
+================================================================================
+

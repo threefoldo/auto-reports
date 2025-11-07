@@ -1,0 +1,7 @@
+Title: Likelihood Approximations with Neural Networks in PyMC
+URL: https://www.pymc-labs.com/blog-posts/likelihood-approximations-through-neural-networks
+Description:  We use an example from cognitive modeling to show how differentiable likelihoods learned from simulators can be used with PyMC.
+Word Count: 0
+
+================================================================================
+

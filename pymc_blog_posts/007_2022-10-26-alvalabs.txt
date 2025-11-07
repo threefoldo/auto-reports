@@ -1,0 +1,7 @@
+Title: Bayesian Item Response Modeling in PyMC
+URL: https://www.pymc-labs.com/blog-posts/2022-10-26-AlvaLabs
+Description:  Uncover the power of Bayesian Item Response Theory in PyMC. Learn how it revolutionizes data analysis and opens up new possibilities for personality modeling.
+Word Count: 0
+
+================================================================================
+

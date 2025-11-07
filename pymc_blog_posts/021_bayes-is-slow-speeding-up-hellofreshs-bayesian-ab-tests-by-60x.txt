@@ -1,0 +1,7 @@
+Title: Bayes is slow? Speeding up HelloFresh's Bayesian AB tests by 60x
+URL: https://www.pymc-labs.com/blog-posts/bayes-is-slow-speeding-up-hellofreshs-bayesian-ab-tests-by-60x
+Description: How to massively speed up inference for AB tests
+Word Count: 0
+
+================================================================================
+

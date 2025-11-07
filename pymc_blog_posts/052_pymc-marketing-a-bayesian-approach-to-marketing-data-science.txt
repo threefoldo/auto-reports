@@ -1,0 +1,7 @@
+Title: PyMC-Marketing: A Bayesian Approach to Marketing Data Science
+URL: https://www.pymc-labs.com/blog-posts/pymc-marketing-a-bayesian-approach-to-marketing-data-science
+Description: PyMC Labs is excited to announce the initial release of PyMC-Marketing
+Word Count: 0
+
+================================================================================
+

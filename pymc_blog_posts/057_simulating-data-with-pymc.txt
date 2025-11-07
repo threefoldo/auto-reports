@@ -1,0 +1,161 @@
+Title: Simulating data with PyMC
+URL: https://www.pymc-labs.com/blog-posts/simulating-data-with-pymc
+Description: Explore how PyMC can be used for efficient and powerful data simulation.
+Word Count: 1033
+
+================================================================================
+
+Simulating data with PyMC
+
+September 23, 2025
+
+ByRicardo Vieira and Tomás Capretto
+
+Image fromWikipedia
+
+PyMCprovids a great API for defining statistical models.
+When paired with its sampling algorithms, it becomes the ideal tool for conducting reliable and robust Bayesian inference.
+
+Still, Bayesian inference is far from its only use case.
+PyMC models specify a highly structured data-generating process that can be very useful on its own.
+Applications include simulation for optimization routines, risk analysis, and research design, among many others.
+
+PyMC comes with many user-friendly builtin distributions and meta-distributions
+which are cumbersome to write from scratch with NumPy or SciPy routines.
+These include Mixtures, Timeseries, Multivariate parametrizations, Censored and Truncated distributions,
+and pretty much anything you would would ever need when doing data simulation.
+
+In this blog post we will give you a flavor for some of these, and show how we use them as part of a data modelling workflow!
+
+Taking draws from simple distributions
+
+SciPy has a lot of distributions, but they are often difficult to work with, due to their focus on loc-scale parametrizations.
+
+PyMC tends to pick more intuitive parametrizations (and often offers multiple options).
+
+For instance, in PyMC you can define aGammadistribution using
+the shape/rate parametrization (which we call alpha and beta), and then take draws with thedrawfunction.
+
+Or, perhaps more intuitively, using the mean/standard deviation parametrization (called mu and sigma).
+
+PyMC takes care of converting between equivalent parametrizations for the user.
+
+All PyMC distributions are vectorized
+
+Not all SciPy distributions allow NumPy-like broadcasting for their parameters.
+PyMC distributions always do!
+
+Ah well...
+
+Meta-Distributions
+
+Neither NumPy nor SciPy offer a pre-built truncated LogNormal distribution (last time I checked).
+They do offer a Truncated Normal, and you could exponentiate those to obtain Truncated LogNormal draws.
+But what if you wanted to sample some other truncated distribution?
+
+PyMC can truncate any (pure univariate) distribution you throw at it, via theTruncatedclass.
+
+Or you can sample from Mixtures, usingMixture.
+
+Here we sample from a Mixture of two Normals, with weights[0.3, 0.7],
+meaning that 30% of the draws will come from the first component and 70% from the second (on average).
+
+Or Random walks... with mixture initial distributions? Sure.
+
+Multiple variables
+
+You can also draw multiple non-independent variables easily.
+
+In this example we first sample a categorical index variable,
+which is then used to select an entry from a vector of 3 Normals with means [-100, 0, 100], respectively.
+
+We can retrieve both the index and selected Normal draws viadraw.
+
+Here we first sample a Poisson variable.
+This value then determines how many draws to take from a Gamma variable that is finally summed.
+
+What if I don't know what I want to sample?
+
+Sometimes you have a rough idea of what the data looks like, but you don't know how to specify it.
+
+This could happen in a parameter recovery study, where you want to simulate covariates that are somewhat "realistic".
+Maybe their marginals match an observed dataset or they show some level of covariance.
+But you may not know exactly what parameters to use.
+
+The good news is that PyMC can also do inference (that's its main goal after all)!
+
+Let's say we have the following marginal data,
+and we want to simulate something that behaves roughly like it.
+
+Looks like a positive distribution, maybe multimodal.
+Perhaps a LogNormal mixture?
+
+What about the parameters for the components, what should be the mixture weigths?
+Let's make PyMC infer them!
+
+Let's assume the price for each of the 5 cuts can be modeled by a mixture of 3 LogNormal distributions.
+That will be 5 * 3 = 15 means and 15 standard deviations.
+We will also need 15 mixture weights.
+Sounds like many parameters, but we have much more data.
+
+Let's create a PyMC model,
+with vague priors and fit the most likely parameter combination that could have generated the data.
+
+That's a bit complicated... but not too bad once you write a couple of PyMC models.
+PyMC comes with a whole set of utilities to help you define complex statistical models.
+
+In the example above we used coords,
+to specify the shape of our parameters with human-readable labels.
+
+We can also request a graphical representation of our model:
+
+Looks about right.
+And here are the most likely parameters according tofind_MAP:
+
+Now that we have a set of parameter values,
+we can take draws from the distribution of interest.
+Hopefully it will resemble our data.
+
+The marginal simulated histograms do resemble those from the original dataset.
+
+Another way of checking their similarity is to look at the empirical CDF.
+The two lines should look alike for distributions that are similar.
+
+Looks close enough!
+
+If it didn't, we could go back to the Model and try something else.
+Maybe more components, or different distribution families...
+
+But careful, if you do this enough times, you may end up as adata modellingpractitioner!
+
+Technical advice
+
+In the examples above we used the handydrawfunction.
+Under the hood, this function creates a compiled function that takes draws from your specified variables, seeds it,
+and then calls it multiple times in a Python loop.
+
+If you are writing performance-critical code,
+you should avoid callingdrawin a loop,
+as it will recompile the same function every time it is called.
+Instead you can compile the underlying random function directly withcompile_pymcand reuse it whenever needed.
+
+The internals ofdraware prettystraightforward.
+
+Secondly, if you need to take many draws from the same distribution,
+it's better to define it with the final shape and call the function only once.In the examples above we never did this!
+
+This way, the random number generation can be vectorized.
+
+To better understand PyMC shapes,
+check outthis page.
+
+Concluding remarks
+
+In this blog post we showed how PyMC can be used as a powerful replacement for NumPy and SciPy
+when writing structured random generation routines.
+
+We also hinted at how the same code can be reused for both simulation and inference in the last example.
+If you go a bit further, you can start doing predictions based on your estimated statistical model.
+This is, in a nutshell, what model based data science is all about!
+
+If you are a data scientist, doing data simulation, we hope you give PyMC a try!

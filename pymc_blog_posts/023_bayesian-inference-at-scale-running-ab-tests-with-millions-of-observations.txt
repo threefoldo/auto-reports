@@ -1,0 +1,7 @@
+Title: Bayesian inference at scale: Running A/B tests with millions of observations
+URL: https://www.pymc-labs.com/blog-posts/bayesian-inference-at-scale-running-ab-tests-with-millions-of-observations
+Description: Industry data scientists are increasingly making the shift over to using Bayesian methods. However, one often cited reason for avoiding this is because “Bayesian methods are slow.” 
+Word Count: 0
+
+================================================================================
+

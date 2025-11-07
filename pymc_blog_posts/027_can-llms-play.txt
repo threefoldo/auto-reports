@@ -1,0 +1,9 @@
+Title: Can LLMs play The Price is Right?
+URL: https://www.pymc-labs.com/blog-posts/can-llms-play
+Description: Synthetic consumers—LLMs simulating human survey participants—are becoming a powerful tool for marketing and behavioral research. They promise faster iteration, lower costs, and broader flexibility than traditional panels. But for them to be useful, they need not only to sound realistic, but also to demonstrate some level of real-world reasoning.
+
+A core question in this space: do LLMs “understand” prices?* That is, can they recognize how much everyday items cost, and make decisions based on that understanding?
+Word Count: 0
+
+================================================================================
+

@@ -1,0 +1,7 @@
+Title: Announcing the Expert Access Program (EAP)
+URL: https://www.pymc-labs.com/blog-posts/expert-access-program
+Description: Teams face critical deadlines where models must be rigorous, but hiring consultants or adding headcount only solves problems temporarily. This is why we created the Expert Access Program — to give teams ongoing access to our experts, ensuring their models keep delivering value long after the initial build.
+Word Count: 0
+
+================================================================================
+

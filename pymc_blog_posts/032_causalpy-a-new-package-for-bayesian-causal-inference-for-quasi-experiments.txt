@@ -1,0 +1,7 @@
+Title: CausalPy - causal inference for quasi-experiments
+URL: https://www.pymc-labs.com/blog-posts/causalpy-a-new-package-for-bayesian-causal-inference-for-quasi-experiments
+Description:  Unveil the power of CausalPy, a new open-source Python package that brings Bayesian causal inference to quasi-experiments. Discover how it navigates the challenges of non-randomized treatment allocation, offering a fresh perspective on causal claims in the absence of experimental randomization.
+Word Count: 0
+
+================================================================================
+

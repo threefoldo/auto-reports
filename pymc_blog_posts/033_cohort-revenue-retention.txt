@@ -1,0 +1,7 @@
+Title: Complete Guide to Cohort Revenue & Retention Analysis: Bayesian Modeling Approach
+URL: https://www.pymc-labs.com/blog-posts/cohort-revenue-retention
+Description: Explore how Bayesian methods can be applied to cohort-level customer lifetime value (CLV) models. This post focuses on combining retention and revenue components for improved forecasting and strategic insights in marketing.
+Word Count: 0
+
+================================================================================
+

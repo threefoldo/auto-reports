@@ -1,0 +1,7 @@
+Title: Causal analysis with PyMC: Answering 'What If?' with the new do operator
+URL: https://www.pymc-labs.com/blog-posts/causal-analysis-with-pymc-answering-what-if-with-the-new-do-operator
+Description: Learn how to use Bayesian causal analysis with PyMC and the new do operator to answer 'What If?' questions.
+Word Count: 0
+
+================================================================================
+

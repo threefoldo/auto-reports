@@ -1,0 +1,7 @@
+Title: Stochastic Volatility Model with PyMC
+URL: https://www.pymc-labs.com/blog-posts/01-xpost-tw-stochastic-volatility
+Description: Explore the concept of time-varying volatility in asset prices, modeled using a stochastic process. The example demonstrates the computation of this volatility based on the daily returns of the S&P 500 using PyMC.
+Word Count: 0
+
+================================================================================
+

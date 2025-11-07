@@ -1,0 +1,9 @@
+Title: Causal sales analytics: A deep-dive on discrete choice modeling
+URL: https://www.pymc-labs.com/blog-posts/causal-sales-analytics-discrete-choice-modeling
+Description: This post explores how PyMC Labs applied a discrete choice modeling framework to solve a challenging causal sales analytics problem for Colgate-Palmolive. The basic multinomial discrete choice model is more faithful to the underlying data generating process than the interrupted time series model we discussed in a previous blog post. It is also more flexible in that can take into account product attributes such as price and product availability (ACV) and estimates each attribute's impact on sales. However, it fails to capture complex patterns of cannibalization and incrementality. This limitation stems from the model's assumption that unobserved consumer preferences are independent, which leads to unrealistic proportional substitution among all products when a new product is introduced.
+
+To overcome this, we developed a more advanced solution based on the nested logit discrete choice model. This model organizes products into hierarchical "nests" (e.g., by segment or brand) to account for correlations in unobserved consumer preferences within those nests. This allows for a more realistic understanding of how a new product's sales are generated, showing that sales of one product preferentially cannibalize from products in the same nest (i.e., similar products). This innovation of this approach represents a significant advancement in causal sales analytics, providing our client with a powerful tool to make better decisions about product launches and marketing.
+Word Count: 0
+
+================================================================================
+

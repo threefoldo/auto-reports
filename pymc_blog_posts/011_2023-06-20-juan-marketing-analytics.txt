@@ -1,0 +1,124 @@
+Title: Bayesian Methods in Modern Marketing Analytics
+URL: https://www.pymc-labs.com/blog-posts/2023-06-20-juan-marketing-analytics
+Description: Discover the innovative application of Bayesian methods in the realm of modern marketing analytics. This article offers a fresh perspective on how these advanced techniques are reshaping the landscape of data-driven marketing strategies.
+Word Count: 378
+
+================================================================================
+
+Bayesian Methods in Modern Marketing Analytics
+
+September 23, 2025
+
+ByThomas Wiecki
+
+Introduction
+
+Bayesian methods have gained significant popularity in modern marketing analytics due to their ability to handle uncertainty, incorporate prior knowledge, and make accurate predictions. Unlike traditional statistical approaches, Bayesian methods provide a flexible framework that enables marketers to make data-driven decisions by combining observed data with prior beliefs or assumptions.
+
+Event Description
+
+In this webinar we discuss some of the most crucial topics in marketing analytics: media spend optimization through media mix models and experimentation, and customer lifetime value estimation. We approach these topics from a Bayesian perspective, as it gives us great tools to have better models and more actionable insights. We take this opportunity to describe our join with PyMC Labs in open-sourcing some of these tools in our brand-new pymc-marketing Python packagePyMC Marketing.
+
+Timestamps
+
+00:00Welcome
+
+02:03Webinar starts
+
+02:32Webinar's objective
+
+03:04Outline
+
+04:05Applied Data Science
+
+05:12Bayesian Methods
+
+06:49Geo-Experimentation
+
+08:27Time-Based Regression
+
+10:26Regression model in PyMC
+
+12:04Marketing measurement
+
+13:34Media Transformations (Carryover (Adstock) & Saturation)
+
+15:50Media Mix Model Target
+
+16:24MMM Structure
+
+16:53Media Contribution Estimation
+
+17:13Budget Optimization
+
+18:18PyMC-Marketing
+
+19:25PyMC-Marketing- More MMM Flavours
+
+20:00Customer Lifetime Value (CLV)
+
+21:47Continuous Non-Contractractual CLV
+
+22:57CLV Estimation Strategy
+
+24:31BG/NBD Assumptions
+
+27:14BG/NBD Parameters
+
+27:50BG/NBD Probability of Alive
+
+28:40Gamma-Gamma Model
+
+29:12BG/NBD Hierarchical Models
+
+31:14Causal Inference (Synthetic control)
+
+32:10Causal Inference (Difference-in-Differences and Regression Discontinuity)
+
+32:39Instrumental Variables
+
+34:46Cohort Revenue-Retention Modelling
+
+38:21Retention and Revenue component
+
+41:02Cohort Revenue-Retention Model
+
+42:34Revenue-Retention Predictions
+
+43:11References
+
+44:25Connect with PyMC Labs
+
+44:50Marketing analytics strategy consultation
+
+47:36PyMC Applied Workshop
+
+48:58Q/A There are so many parameters in MMM which are not identifiable ...
+
+53:00Q/A In the MMM how do you encode categorical control variables?
+
+54:10Q/A How to deal with latent variables?
+
+57:34Q/A If you observe the baseline uplift...How do you measure it in a Media mix model...?
+
+59:15Q/A How does it solve the cold start problem?
+
+Resources
+
+pymc-marketing open source Python package
+
+Slides
+
+Book a Free 30-Minute Consultation
+
+Curious how these tools can be most effectively used in your particular situation? In this free 30-minute strategy consultation with us, we will:
+
+Review your current setup and any potential pain points you might have.
+
+Identify where there are areas for improvement.
+
+Define a plan of how Bayesian open-source tools can help you bring your marketing analytics to the next level.
+
+Free strategy consultation:calendly.com/twiecki/bayes
+
+If calendly slots are full, email:thomas.wiecki@pymc-labs.com

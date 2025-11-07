@@ -1,0 +1,7 @@
+Title: From Weeks to Minutes: Accelerate building your Bayesian Marketing Mix Model using Fivetran & PyMC-Marketing
+URL: https://www.pymc-labs.com/blog-posts/accelerating-bayesian-mmm-fivetran-pymc-marketing
+Description: Fivetran and PyMC-Marketing integrate to deliver a production-grade Bayesian MMM pipeline. Standardized dbt outputs flow directly into PyMC-Marketing loaders, enabling faster insights, defendable uncertainty estimates, and scalable budget optimization.
+Word Count: 0
+
+================================================================================
+

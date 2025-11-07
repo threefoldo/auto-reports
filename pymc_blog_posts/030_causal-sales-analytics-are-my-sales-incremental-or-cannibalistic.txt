@@ -1,0 +1,7 @@
+Title: Causal sales analytics: Are my sales incremental or cannibalistic?
+URL: https://www.pymc-labs.com/blog-posts/causal-sales-analytics-are-my-sales-incremental-or-cannibalistic
+Description: This post explores causal sales analytics, helping companies estimate whether sales from a new product are incremental or cannibalistic. The article discusses the complexities of such analysis and the need for bespoke causal models, ultimately enhancing decision-making for product portfolio management.
+Word Count: 0
+
+================================================================================
+

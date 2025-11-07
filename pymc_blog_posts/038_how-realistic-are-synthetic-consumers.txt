@@ -1,0 +1,7 @@
+Title: How Realistic Are Synthetic Consumers?
+URL: https://www.pymc-labs.com/blog-posts/how-realistic-are-synthetic-consumers
+Description: Evaluating LLMs on Political and Lifestyle Choices
+Word Count: 0
+
+================================================================================
+

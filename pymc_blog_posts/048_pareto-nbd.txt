@@ -1,0 +1,7 @@
+Title: Customer Lifetime Value in the non-contractual continuous case: The Bayesian Pareto NBD Model
+URL: https://www.pymc-labs.com/blog-posts/pareto-nbd
+Description: Exploring the Bayesian Pareto NBD model for predicting customer lifetime value and purchase behavior
+Word Count: 0
+
+================================================================================
+

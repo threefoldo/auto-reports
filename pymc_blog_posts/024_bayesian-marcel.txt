@@ -1,0 +1,7 @@
+Title: Bayesian Baseball Monkeys
+URL: https://www.pymc-labs.com/blog-posts/bayesian-marcel
+Description: Using Bayesian methods to implement a MARCEL-style projection system for MLB ...
+Word Count: 0
+
+================================================================================
+

@@ -1,0 +1,7 @@
+Title: What if? Causal inference through counterfactual reasoning in PyMC
+URL: https://www.pymc-labs.com/blog-posts/causal-inference-in-pymc
+Description: Unravel the mysteries of counterfactual reasoning in PyMC and Bayesian inference. This post illuminates how to predict the number of deaths before the onset of COVID-19 and how to forecast the number of deaths if COVID-19 never happened. A must-read for those interested in causal inference!
+Word Count: 0
+
+================================================================================
+

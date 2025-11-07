@@ -1,0 +1,100 @@
+Title: Modeling spatial data with Gaussian processes in PyMC
+URL: https://www.pymc-labs.com/blog-posts/spatial-gaussian-process-01
+Description: We build a Gaussian process model on a geospatial dataset with the goal of predicting expected concentrations of a radioactive gas in households depending on the county the houses belong to.
+Word Count: 1802
+
+================================================================================
+
+Modeling spatial data with Gaussian processes in PyMC
+
+September 23, 2025
+
+ByThomas Wiecki
+
+Beyond naive hierarchical models
+
+So many times I've found myself having to work with geospatial data. It's everywhere: from advertisement, to product inventories, to electoral polls. While I was learning Bayesian modeling, I used to think about geographical information as some categorical value that grouped some observations together. The nice thing about this approach is that observations coming from the exact same geographical area will share a common feature, and this feature will be used (somehow) to explain the similarities between both observations. The bad thing about this approach is that observations from neighboring geographical areas are assumed to have absolutely nothing in common. Sounds weird, right? Usually we would picture some kind of continuous latent geographical feature that makes observations taken from nearby places be similar to each other. Surely there must be a better way of modeling geospatial data!
+
+Completely independently from me modeling geospatial data, I learned how to work with Gaussian processes (GPs). GPs provide a very nice and flexible way of setting a prior that essentially says:"nearby observations should be similar to each other, and as the observations go further away, they become uncorrelated". This really clicked with what I wanted to do with geospatial data! The only problem was that there weren't many sources targeting general audiences that explained how to use GPs on geospatial data. That's why I wanted to put together a small example that showcases how you can use GPs with geospatial data using PyMC.
+
+Our dataset
+
+We will be revisiting a classic: the radon dataset, fromGelman and Hill 2006(if you haven't read thePyMC case studyyet, you really should go ahead and do that now, it's an excellent resource!). Just to give you a quick refresher, Gelman and Hill studied a dataset of radon measurements that were performed in 919 households from 85 counties of the state of Minnesota. The case study cited above, focuses on how to use the county information to group households together, and then try to estimate a state-wide expected radon level, and the expected radon for each observed county. This is exactly the same as my old grouping approach to geospatial data!
+
+The grouping approach comes with the crucial drawback I mentioned before: measurements from neighboring counties are uncorrelated from each other. This makes no sense! Why should the radon concentration in Earth's crust follow some county boundary line?! It makes much more sense to imagine that radon concentration varies continuously on the surface of the Earth, and then simply use the household locations to estimate it. This would actually give us the information of the radon we expect to measure in neighboring states or countries! Let's see how we can do this using PyMC!
+
+But first, let's look at some maps
+
+We can't start our modeling without first looking at our data on a map. So we'll do a small detour on how I usedcartopyto plot the radon dataset.
+
+Cartopy can be used to get shape files from some public sources, likeNatural Earth. One of these are the shape files for counties in the United States. The county shapes have a lot of meta information. One important field is called FIPS, that stands forFederal Information Processing System. At the time the radon measurements were performed, the counties were identified using their FIPS codes, and we will use these to align our observations to the corresponding shape files.
+
+Now that we have loaded the dataset and extracted all the necessary shape files, we notice something interesting. The dataset has measurements for 85 out of 87 counties from Minnesota. We will use our model to predict the expected level of radon that we should see in the remaining 2 counties and also on the 37 neighboring counties from the neighboring states. Let's have a look at where these counties are on a map:
+
+The green counties are the ones where we have at least one household measurement. The red ones are where we don't have measurements. The blue dots are points that are within the county. Since the radon dataset doesn't have the precise coordinates of each household (I imagine for privacy reasons), we will use the coordinates of the blue dots to impute the county households locations.
+
+Now let's look at the average radon measurement for each county. To view this, we first need to use a dictionary that maps from the county measured in the radon dataframe to the shapefile record for said county.
+
+We can see a small pattern forming here. It looks like radon is denser to the south west, and sparser in the north east. We're almost ready to take this data to the next level!
+
+Gaussian processes on a sphere
+
+Even though the above plot seems flat, Earth is round (kind of):
+
+And this makes it a bit harder for us to define Gaussian processes. Thankfully, there isa very nice review paperby Jeong, Jun and Genton that talks exactly about how one could write down covariance functions for Gaussian process that occur on the surface of a sphere. We will basically follow one of their simplest approaches: use a Matérn kernel that relies on the chordal distance between points.
+
+Wait, thewhatdistance?!
+
+The chordal distance simply is the distance between two points on the surface of the Earth if you could travel between them using a straight line that went through the planet. On the other hand, the Geodesic distance is the shortest distance between two points if one was forced to travel on the surface of the globe.
+
+Custom PyMC covariance kernel on a sphere
+
+PyMC comes with manycovariance kernels, but they all assume that the distance between two points is the Euclidean distance. Since we will be working with longitude and latitude pairs, we will need to write a customCovariancesubclass that operates using the metric we actually want - the chordal distance between points on a sphere.
+
+To do this, we basically need to inherit frompymc.gp.cov.Stationaryand overload thefullmethod. This method computes the covariance between a set of points. To do this, we will copy the implementation frompymc.gp.cov.Matern32but change the distance function used. Instead of using the assumedeuclidean_dist, we will write a custom method, thechordal_dist. To compute the chordal distance, we only need to convert the longitude/latitude coordinates into their 3-D position counterparts. The chordal distance then simply is the Euclidean distance between the 3-D position coordinates.
+
+Gaussian process geospatial model
+
+It's been a long road up until now, but we are finally ready to write our PyMC model of the geospatial dataset! Let's go step by step, and start by simply creating the model instance and populating it with some data.
+
+Now, we will basically assume that the observed radon comes from a state level mean plus some deviation due to the county. The county deviation will be represented by a GP. Let's first create the state level random variables.
+
+We create the GP prior for the county deviations. We will try to infer the length scale and a priori assume that it's around 200 km with a standard deviation of about 50 km.
+
+We piece everything together and compute the expected radon measurement of each household:
+
+Now, the final piece of the puzzle: the observational distribution. We will model the log radon values
+
+If you are familiar with the radon dataset you will have noted that we haven't included any information about whether the radon was recorded at the basement or not. We could exploit this extra information to make the model better. We decided to go with the simplest geospatial model posible to begin with, but if you want more, just ping us on Twitter@pymc_labs, and we'll write up a follow up blog post on how you could add this extra piece of information to the model.
+
+Now let's sample from the model and see what the model learns about the measured counties:
+
+Finally, the most important piece, extrapolating what we learned to unobserved counties! To do this, we will have to create conditional GP's on the unobserved coordinates, and then create the conditional observed log radon random variables:
+
+Afterwards, predicting on these new counties is as easy as sampling from the posterior predictive distribution.
+
+Beautiful! Our model learned the north-east south-west pattern of radon from the observations! I also takes advantage of the discovered pattern to make predictions of the expected radon in the neighboring counties, and in the two counties without measurements in Minnesota.
+
+And, of course, we can also visualize the uncertainty we have on our predicted expected log radon measurements by plotting the standard deviation of the posterior predictive distribution:
+
+The model is quite certain in its prediction for the Minnesota counties, and the standard deviation of expected radon is small. But as the model is forced to make predictions outside of Minnesota, the standard deviation increases, meaning that the model is less certain about its mean predicted value. We can also see that the model is fairly certain about the predicted value for the two Minnesota counties without measurements, which makes sense, given that we have a bunch of recordings all around them.
+
+Wrap up
+
+That was quite a ride! We managed to build a Gaussian process prior for the radon dataset, which allowed us to learn a geospatial pattern of expected radon concentration, and to predict measurement concentrations in neighboring, unmeasured counties. To compare this against the grouping approach, which is sometimes called a hierarchical model, we are able to see a more informed extrapolation from observed counties to unobserved counties. The grouping approach, at its core, assumes that a priori all groups are exchangeable. In other words, a naive hierarchical model would only be able to predict that counties to the east and west of Minnesota would have exactly the same expected radon concentration.
+
+As we mentioned earlier in this post, this model doesn't exploit part of the information present in the dataset. It can be improved to leverage whether a recording was taken in a basement or not, and it could also exploit the measured Uranium similarly to how it's shown in thegroup level predictors exampleusing the naive hierarchical model. If you're interested in reading a future blog post that shows this, feel free to reach out ontwitter.
+
+Acknowledgements
+
+Cover photo byGreg RosenkeonUnsplash
+
+References
+
+Gelman, A., & Hill, J. (2006). Data Analysis Using Regression and Multilevel/Hierarchical Models (Analytical Methods for Social Research). Cambridge: Cambridge University Press. doi:10.1017/CBO9780511790942
+
+PyMC radon dataset Case study
+
+Jaehong Jeong. Mikyoung Jun. Marc G. Genton. "Spherical Process Models for Global Spatial Statistics." Statist. Sci. 32 (4) 501 - 513, November 2017.https://doi.org/10.1214/17-STS620
+
+Radon dataset from Gelman & Hill (2006). We only consider the recordings performed in Minnesota (MN) that go from row 5081 to 5999. A file with the relevant subset is available in thepymc-examples repository

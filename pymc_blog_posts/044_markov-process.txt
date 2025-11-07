@@ -1,0 +1,7 @@
+Title: Estimating a Candidate's Popularity over Time with Markov Processes
+URL: https://www.pymc-labs.com/blog-posts/markov-process
+Description:  Estimate French presidents' popularity across time with a Markov model
+Word Count: 0
+
+================================================================================
+

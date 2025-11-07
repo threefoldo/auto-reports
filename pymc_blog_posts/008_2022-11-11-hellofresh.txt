@@ -1,0 +1,7 @@
+Title: Bayesian Marketing Mix Models: State of the Art and their Future
+URL: https://www.pymc-labs.com/blog-posts/2022-11-11-HelloFresh
+Description: Learn the cutting-edge of Bayesian Marketing Mix Models and glimpse into their promising future. Uncover how these models are revolutionizing business strategies and decision-making processes.
+Word Count: 0
+
+================================================================================
+

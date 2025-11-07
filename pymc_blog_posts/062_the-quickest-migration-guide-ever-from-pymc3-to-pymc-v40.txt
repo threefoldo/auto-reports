@@ -1,0 +1,108 @@
+Title: The Quickest Migration Guide Ever from PyMC3 to PyMC v4.0
+URL: https://www.pymc-labs.com/blog-posts/the-quickest-migration-guide-ever-from-pymc3-to-pymc-v40
+Description: Discover how few changes are needed to upgrade to PyMC v4.0!
+Word Count: 550
+
+================================================================================
+
+The Quickest Migration Guide Ever from PyMC3 to PyMC v4.0
+
+September 23, 2025
+
+ByEric J. Ma
+
+PyMC v4.0is out in beta!
+PyMC Labs is thrilled to have worked with the PyMC development team
+to get this release out the door.
+Usually, a new version implies code changes.
+In this short post, we’d like to highlight
+how to migrate your code from PyMC3 to PyMC v4.0.
+
+The tl;dr?
+While there’s a lot of really cool improvements we’ve made underneath the hood
+(stay tuned for a full post on this),
+the number of things you’ll need to change areminimal!
+
+Installation
+
+PyMC v4.0 is now available viapipandconda.
+
+To install bypip:
+
+(The--preflag is necessary to install the pre-release
+before we release the a production-ready version.)
+
+To install byconda:
+
+Imports
+
+The biggest change you’ll see is probably this one.
+You probably imported PyMC3 as follows:
+
+With PyMC v4.0, you’ll do the following import instead:
+
+Sampling
+
+In PyMC3, we used to return aMultiTraceobject.
+
+In PyMC v4.0, we instead return an ArviZInferenceDataobject instead:
+
+Underneath the hood, theInferenceDataobject is a richer data structure
+than the MultiTrace object,
+and is essentially a wrapper around xarray.
+Xarray provides the ability to do much saner indexing and labelling of coordinates.
+You can think of xarray as “pandas for n-dimensional arrays”.
+You can read more about theInferenceDataobject
+onthe official ArviZ docs.
+
+In addition to that theInferenceDataobject supports storing
+prior predictive and posterior predictive samples
+that you can use to sanity-check your models.
+
+If you do this often, stay tuned for API updates to PyMC v4.0:we are discussingmaking prior and posterior predictive samples a standard part ofpm.sample()itself!
+
+ArviZ
+
+In the past, you may have used PyMC3’s built-in visualization capabilities:
+
+Since PyMC3, we’ve started delegating these visualization capabilities to ArviZ,
+and as of PyMC v4.0, it’s considered idiomatic to just use ArviZ instead.
+
+ArviZ has a rich library of
+Good Bayesian Workflow-supportingvisual diagnostics,
+and we’d encourage you to check it out!
+
+What about all of those custom things?
+
+Perhaps you’ve made something custom using the old Theano library,
+and are unsure about what to do there?
+
+Well, Theano has been replaced by Aesara,
+and it’s basically a one-to-one replacement (with minor exceptions).
+
+For those who are curious,in one Greek tradition,
+Aesara is the daughter of Theano and Pythagoras.
+
+Aesara and Theano are both symbolic tensor libraries.
+SinceMILA’s discontinued efforts developing Theano,
+the PyMC dev team took over Theano and,
+with the upgrades made thus far,
+we’ve repackaged it into Aesara.
+You can check out theAesara docsandGitHub organizationto learn more about PyMC’s backing library.
+While previously Theano was backed by C++,
+Aesara adds Numba and JAX backends while striving for 100% NumPy API compatibility.
+It’s an exciting time to be a Pythonista!
+
+And if there’s something that’s really custom that you need,
+such as a custom JAX-backed operation or high performance custom code in Aesara,
+thenPyMC Labsis here to help!
+
+Summary
+
+In summary, for the vast majority of users of PyMC3,
+migrating from PyMC3 to PyMC v4.0 is a matter of switching a few lines of code.
+A few find-and-replace operations throughout your repository,
+and you should be fine.
+For the more advanced users, you can use Aesara like Theano.
+And for those really technically challenging yet high business value problems,
+PyMC Labs is here for you — just get in touch with us 🙂!

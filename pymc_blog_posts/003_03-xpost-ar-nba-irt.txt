@@ -1,0 +1,7 @@
+Title: NBA Foul Analysis with Item Response Theory using PyMC
+URL: https://www.pymc-labs.com/blog-posts/03-xpost-ar-nba-irt
+Description: Delve into the use of Bayesian Item Response Theory and the Rasch model for analyzing NBA foul calls data. The model estimates individual player contributions to foul outcomes.
+Word Count: 0
+
+================================================================================
+

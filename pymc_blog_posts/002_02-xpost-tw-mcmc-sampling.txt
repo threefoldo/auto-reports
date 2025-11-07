@@ -1,0 +1,21 @@
+Title: MCMC sampling for dummies
+URL: https://www.pymc-labs.com/blog-posts/02-xpost-tw-MCMC-sampling
+Description: Explore the intuition behind MCMC sampling and the random-walk Metropolis algorithm through code examples rather than complex formulas or math-speak.
+Word Count: 129
+
+================================================================================
+
+MCMC sampling for dummies
+
+September 23, 2025
+
+ByThomas Wiecki
+
+How is inference actually performed and how does it work? How do we get these magical samples from the posterior?
+The beauty of probabilistic programming is that you actually don't have to understand how the inference works in order to build models, but it certainly helps.
+Math and statisics tend to seem complex because when they are taught,
+no one ever tells you about the intuition behind the concepts (which is usually quite simple) but only hands you some scary math.
+This blog post is an attempt at trying to explain the intuition behind MCMC sampling (specifically, the random-walk Metropolis algorithm).
+Critically, we'll be using code examples rather than formulas or math-speak.
+
+For the full example, see:MCMC sampling for dummies

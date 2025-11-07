@@ -1,0 +1,7 @@
+Title: My Journey Building PyMC Labs: Five Principles from Open Source that Boost Innovation at any Company
+URL: https://www.pymc-labs.com/blog-posts/labs-principles
+Description: 5 organizational principles that foster innovation at PyMC Labs
+Word Count: 0
+
+================================================================================
+

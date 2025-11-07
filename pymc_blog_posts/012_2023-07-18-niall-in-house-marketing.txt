@@ -1,0 +1,7 @@
+Title: Building an in-house marketing analytics solution
+URL: https://www.pymc-labs.com/blog-posts/2023-07-18-niall-In-house-marketing
+Description: Get a fresh perspective on constructing an in-house marketing analytics solution. This article offers unique insights into the process, highlighting the benefits and challenges of such an endeavor.
+Word Count: 0
+
+================================================================================
+

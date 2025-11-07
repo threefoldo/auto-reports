@@ -1,0 +1,7 @@
+Title: Unobserved Confounders, ROAS and Lift Tests in Media Mix Models
+URL: https://www.pymc-labs.com/blog-posts/mmm_roas_lift
+Description: Understanding the role of lift tests in calibrating Media Mix Models.When working with Media Mix Models (MMMs), calibration with lift tests is not just a technical step —it's essential for making these models reliable and actionable.
+Word Count: 0
+
+================================================================================
+

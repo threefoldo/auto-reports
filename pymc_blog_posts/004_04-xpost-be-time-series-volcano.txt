@@ -1,0 +1,7 @@
+Title: Building Time-Series Models With Known Data Structure
+URL: https://www.pymc-labs.com/blog-posts/04-xpost-be-time-series-volcano
+Description: Dive into the application of Gaussian Processes in constructing time-series models, leveraging domain knowledge of the underlying time-series. The discussion includes the use of PyMC for modeling carbon dioxide measurements derived from ice cores and atmospheric readings from Mauna Loa, a Hawaiian volcano.
+Word Count: 0
+
+================================================================================
+

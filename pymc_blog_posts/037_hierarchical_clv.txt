@@ -1,0 +1,7 @@
+Title: Hierarchical Customer Lifetime Value Models
+URL: https://www.pymc-labs.com/blog-posts/hierarchical_clv
+Description: This post explores the application of hierarchical Bayesian models to Customer Lifetime Value (CLV) prediction, improving accuracy for customer cohorts, and addressing seasonality and data sparsity.
+Word Count: 0
+
+================================================================================
+
