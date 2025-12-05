@@ -18,6 +18,7 @@ def main():
     # Define only the columns we want to keep
     fieldnames = [
         'title',
+        'location',
         'email',
         'degree_program',
         'clickUri',
